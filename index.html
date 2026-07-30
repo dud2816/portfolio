@@ -52,15 +52,32 @@
   .hero p.summary{font-size:15.5px}
   .hero p.summary + p.summary{margin-top:10px}
 
-  .statline{
-    display:flex; flex-wrap:wrap; margin-top:32px;
-    border-top:2px solid var(--rule); border-bottom:1px solid var(--border);
+  .hero-chart{margin-top:26px; background:var(--card)}
+
+  .ci-label{font-family:var(--mono); font-size:11px; letter-spacing:.12em; color:var(--muted); margin:26px 0 10px}
+  .case-index{display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:12px}
+  .ci-card{
+    display:block; text-decoration:none; color:var(--ink);
+    background:var(--card); border:1px solid var(--border); border-radius:10px;
+    padding:16px 18px 14px; transition:border-color .15s, transform .15s;
   }
-  .stat{flex:1; min-width:160px; padding:16px 18px 14px; border-right:1px solid var(--border)}
-  .stat:last-child{border-right:none}
-  .stat b{font-size:24px; letter-spacing:-.02em; font-variant-numeric:tabular-nums; display:block}
-  .stat b.g{color:var(--green)}
-  .stat span{font-size:12px; color:var(--muted)}
+  .ci-card:hover{border-color:var(--green); transform:translateY(-2px)}
+  .ci-card .ci-tag{font-family:var(--mono); font-size:10.5px; letter-spacing:.08em; color:var(--muted); display:block}
+  .ci-card b{font-size:26px; letter-spacing:-.02em; color:var(--green); font-variant-numeric:tabular-nums; display:block; margin:6px 0 4px}
+  .ci-card b em{font-style:normal; font-size:14px; color:var(--muted); font-weight:400}
+  .ci-card .ci-title{font-size:12.5px; color:var(--muted); display:block; line-height:1.5}
+  @media (prefers-reduced-motion:reduce){ .ci-card{transition:none} .ci-card:hover{transform:none} }
+
+  .case{scroll-margin-top:70px}
+
+  /* before/after bars */
+  .bars-wrap{padding:28px 4px 26px}
+  .bars{display:flex; align-items:flex-end; gap:24px; height:110px}
+  .bar{width:52px; border-radius:5px 5px 0 0; position:relative}
+  .bar span{position:absolute; top:-22px; left:50%; transform:translateX(-50%); font-size:12px; font-family:var(--mono); white-space:nowrap}
+  .bar em{position:absolute; bottom:-24px; left:50%; transform:translateX(-50%); font-size:11px; color:var(--muted); font-style:normal; white-space:nowrap}
+  .bar.before{height:100%; background:var(--red)}
+  .bar.after{height:30%; background:var(--green)}
 
   /* ---------- sections ---------- */
   section{padding:56px 0 8px}
@@ -210,7 +227,7 @@
 <div class="wrap hero">
   <div class="doc-label">경력기술서 · 포트폴리오</div>
   <h1>품질을 검증하던 5년이,<br>지금은 <em>데이터로 판단하는 힘</em>이 됩니다</h1>
-  <div class="who"><b>김귀영</b> — QA 출신 PM, G마켓 홈/Browsing 담당</div>
+  <div class="who"><b>김귀영</b> — QA 출신 PM, G마켓 홈/Browsing 담당 · 총 IT 경력 5년 10개월</div>
   <p class="summary">
     LG Signage 외주 QA로 시작해 카사코리아 자사 1인 QA까지, 5년간 제품의 마지막 관문을 지켰습니다.<br>
     지금은 G마켓에서 운영 지원·Data 모니터링·QA를 담당하며 데이터로 문제를 발견하고 개선 방향을 제안합니다.
@@ -219,11 +236,23 @@
     이 문서는 회사별로 <b>맡았던 일(경력기술)</b>과 <b>그 안에서 풀어낸 문제(케이스)</b>를 함께 정리한 것입니다.
   </p>
 
-  <div class="statline">
-    <div class="stat"><b>5년 10개월</b><span>총 IT 경력</span></div>
-    <div class="stat"><b class="g">−70%</b><span>PV 이상치 데이터 감소</span></div>
-    <div class="stat"><b class="g">30–60분/일</b><span>모니터링 자동화 단축</span></div>
-    <div class="stat"><b>1인 QA</b><span>핀테크 검증 단독 수행</span></div>
+  <div class="ci-label">CASE INDEX — 클릭하면 상세로 이동합니다</div>
+  <div class="case-index">
+    <a class="ci-card" href="#case1">
+      <span class="ci-tag">CASE 01 · G마켓</span>
+      <b>−70%</b>
+      <span class="ci-title">PV 이상 트래픽 탐지 · 필터링 정책</span>
+    </a>
+    <a class="ci-card" href="#case2">
+      <span class="ci-tag">CASE 02 · G마켓</span>
+      <b>실험 진행 중</b>
+      <span class="ci-title">'새로왔G' 효율 분석 · 위치 변경 실험</span>
+    </a>
+    <a class="ci-card" href="#case3">
+      <span class="ci-tag">CASE 03 · 카사코리아</span>
+      <b>−30–60분<em>/일</em></b>
+      <span class="ci-title">데일리 모니터링 자동화</span>
+    </a>
   </div>
 </div>
 
@@ -260,14 +289,13 @@
           <span class="chip hl">운영 지원</span><span class="chip hl">Data 모니터링</span><span class="chip hl">QA</span>
         </div>
         <ul class="duties">
-          <li>데이터 대시보드 유지보수 및 홈 영역 지표 모니터링, KPI 정의·데이터 분석 지원</li>
+          <li>데이터 대시보드 유지보수·홈 영역 지표 모니터링, KPI 정의·데이터 분석 지원</li>
           <li>홈 화면 변경·신규 기능 전반 QA — TC 작성, 기능/회귀 테스트</li>
-          <li>외주 QE 버그 티켓 유효성 검토 후 담당 개발자 Assign, Jira 이슈 관리</li>
-          <li>PM·개발자와 협업하여 이슈 해결 지원</li>
+          <li>외주 QE 버그 티켓 유효성 검토·담당 개발자 Assign 등 Jira 이슈 관리</li>
         </ul>
 
         <!-- CASE 01 -->
-        <div class="case">
+        <div class="case" id="case1">
           <span class="tag">CASE 01 · DATA 모니터링 중 발견</span>
           <h4>모바일 앱 PV 이상 트래픽 탐지 · 필터링 정책 개선</h4>
           <div class="oneliner">일상 모니터링에서 지표를 오염시키던 비정상 트래픽을 발견하고, 필터링 정책 설계까지 주도</div>
@@ -279,24 +307,6 @@
               발견했습니다. 특정 <code>channel_code</code>에 집중되어 있었고, 유저 1인당 PV가
               <b>20–30회</b>까지 발생하고 있었습니다.
             </p>
-          </div>
-
-          <div class="chart-card">
-            <strong>PV 추이 — 필터링 전후</strong>
-            <div class="legend">
-              <span class="l-a"><i></i>필터링 전 (이상치 포함)</span>
-              <span class="l-b"><i></i>필터링 후</span>
-            </div>
-            <svg viewBox="0 0 640 160" role="img" aria-label="이상 트래픽 필터링 전후 PV 추이 예시 그래프">
-              <line x1="0" y1="135" x2="640" y2="135" stroke="#E4E6DE"/>
-              <line x1="0" y1="90" x2="640" y2="90" stroke="#EFF0EA"/>
-              <line x1="0" y1="45" x2="640" y2="45" stroke="#EFF0EA"/>
-              <polyline class="line-a" fill="none" stroke="#C7502F" stroke-width="2" stroke-linejoin="round"
-                points="0,115 30,108 55,113 80,54 95,106 120,36 135,101 160,111 185,27 200,104 225,45 245,108 270,113 295,32 310,102 340,40 360,110 385,106 410,25 430,100 455,50 480,111 505,108 530,34 550,104 580,45 600,110 640,106"/>
-              <polyline class="line-b" fill="none" stroke="#0B6B48" stroke-width="2.5" stroke-linejoin="round"
-                points="0,119 60,115 120,117 180,112 240,114 300,110 360,113 420,108 480,111 540,106 600,109 640,107"/>
-            </svg>
-            <div class="chart-note">* 상대 패턴을 재구성한 예시 차트입니다.</div>
           </div>
 
           <div class="step">
@@ -323,11 +333,17 @@
           <div class="result">
             <div class="big">−70%</div>
             <p>이상치 데이터 감소. 이후의 제품 의사결정이 깨끗한 데이터 위에서 이루어지도록 지표 신뢰도를 회복했습니다.</p>
+            <div class="bars-wrap">
+              <div class="bars" role="img" aria-label="필터링 전후 이상치 데이터량 비교">
+                <div class="bar before"><span>100</span><em>필터링 전</em></div>
+                <div class="bar after"><span>30</span><em>필터링 후</em></div>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- CASE 02 -->
-        <div class="case">
+        <div class="case" id="case2">
           <span class="tag g">CASE 02 · 신규 섹션 효율 분석 중 발견</span>
           <h4>신규 섹션 '새로왔G' 효율 분석 · 위치 변경 실험</h4>
           <div class="oneliner">"PV가 낮다"는 표면 지표 뒤에서, 높은 탐색 효율이라는 진짜 신호를 찾아 실험으로 연결</div>
@@ -428,15 +444,13 @@
           <span class="chip hl">자사 1인 QA</span><span class="chip hl">기획 단계 참여</span><span class="chip hl">금융 로직 검증</span>
         </div>
         <ul class="duties">
-          <li>기획 단계부터 QA로 참여 — API 플로우 설계 리뷰로 오류 사전 차단</li>
-          <li>Figma 기반 TC/시나리오 작성으로 릴리즈 전 결함률 감소</li>
-          <li>청약·매수·매도·세금 계산 등 <b>금융 핵심 로직의 시나리오 설계·리딩</b></li>
-          <li>Postman/PAW·DBeaver를 통한 회원 상태·거래 데이터 검증</li>
+          <li>기획 단계부터 QA로 참여 — API 플로우 리뷰로 오류 사전 차단, Figma 기반 TC/시나리오 작성</li>
+          <li>청약·매수·매도·세금 계산 등 <b>금융 핵심 로직의 시나리오 설계·리딩</b> (Postman/PAW·DBeaver 데이터 검증)</li>
           <li>기획자 공백기에 기획 일부를 직접 수행 — PM에 대한 관심이 시작된 지점</li>
         </ul>
 
         <!-- CASE 03 -->
-        <div class="case">
+        <div class="case" id="case3">
           <span class="tag g">CASE 03 · 반복 업무에서 발견</span>
           <h4>데일리 모니터링 자동화 — 1인 QA의 레버리지</h4>
           <div class="oneliner">매일 반복되던 수기 검증을 ROI 판단으로 선별해 Appium 자동화로 전환</div>
